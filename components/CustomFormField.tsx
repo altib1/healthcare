@@ -1,9 +1,8 @@
 'use client'
+
 import React from 'react'
 import {
-    Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -17,9 +16,9 @@ import 'react-phone-number-input/style.css'
 import { E164Number } from 'libphonenumber-js/min'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import { render } from 'react-dom'
-import { Select, SelectTrigger, SelectValue } from './ui/select'
-import { SelectContent } from '@radix-ui/react-select'
+import { Select, SelectTrigger, SelectValue, SelectContent } from './ui/select'
+import { Textarea } from './ui/textarea'
+import { Checkbox } from './ui/checkbox'
 
 export enum FormFieldType {
     INPUT = "input",
@@ -117,19 +116,45 @@ const RenderField = ({field, props}: {field:any; props: CustomProps}) => {
                     <Select onValueChange={field.onChange}
                     defaultValue={field.value}
                     >
-                        <FormControl className='shed-select-trigger'>
-                            <SelectTrigger className='shed-select-trigger'>
-                                <SelectValue placeholder={placeholder} />
-                            </SelectTrigger>
-                        </FormControl>
+                        <SelectTrigger className='shad-select-trigger'>
+                            <SelectValue placeholder={placeholder} />
+                        </SelectTrigger>
                         <SelectContent
+                        
                         className='shad-select-content'
                         >
                             {props.children}
                         </SelectContent>
                     </Select>
                 </FormControl>
-            )    
+            )  
+        case FormFieldType.TEXTAREA:
+            return (
+                <FormControl>
+                    <Textarea 
+                    placeholder={placeholder}
+                    {...field}
+                    className='shad-textarea'
+                    disabled={props.disabled}
+                    />
+                </FormControl>
+            )   
+        case FormFieldType.CHECKBOX:
+            return (
+            <FormControl>
+                <div className='flex items-center gap-4'>
+                    <Checkbox 
+                    id={props.name}
+                    checked = {field.value}
+                    onCheckedChange={field.onChange}
+                    />
+                    <label htmlFor={props.name} className='checkbox-label'>
+                        {props.label}
+                    </label>
+                </div>
+            </FormControl> 
+            )
+                
         default:
             return null
     }
@@ -158,7 +183,7 @@ const CustomFormField = (props: CustomProps) => {
     render={({ field }) => (
         <FormItem className='flex-1'>
             {fieldType !== FormFieldType.CHECKBOX && label && (
-                    <FormLabel htmlFor={label}>{label}</FormLabel>
+                    <FormLabel>{label}</FormLabel>
 
             )}
 
