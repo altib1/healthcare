@@ -6,7 +6,7 @@ import { Doctors } from '@/constants'
 import { formatDateTime } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 
-const Success = async ({params: {userID}, searchParams}: SearchParamProps) => {
+const Success = async ({params: {userId}, searchParams}: SearchParamProps) => {
 
     const appontmentId = (searchParams.appointmentId as string) || '';
     const appointment = await getAppointment(appontmentId);
@@ -65,7 +65,7 @@ const Success = async ({params: {userID}, searchParams}: SearchParamProps) => {
             </section>
 
             <Button variant="outline" className='shad-primary-btn' asChild>
-                <Link href={`/patients/${userID}/new-appointment`}>
+                <Link href={`/patients/${userId}/new-appointment`}>
                     New Appointment
                 </Link>
             </Button>
